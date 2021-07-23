@@ -1,44 +1,62 @@
-import { createContext } from "react";
-import React from "react";
-import { Component } from "react";
-import Carrinhos from "./Carrinhos";
+import React from 'react';
+import { Context } from './App';
+import carBlue from './images/carBlue.jpeg';
+import carRed from './images/carRed.jpeg';
+import carYellow from './images/carYellow.jpeg';
 
-export const Context = createContext();
 
-class Cars extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      cars: {
-        red: false,
-        blue: false,
-        yellow: false,
-      },
-    };
-    this.moveCar = this.moveCar.bind(this);
-  }
-
-  moveCar(cor, valor) {
-    this.setState({
-      cars: {
-        red: cor === "red" ? valor : this.state.cars.red,
-        blue: cor === "blue" ? valor : this.state.cars.blue,
-        yellow: cor === "yellow" ? valor : this.state.cars.yellow,
-      },
-    });
-  }
+class Cars extends React.Component {
   render() {
-    const contextValue = {
-      cars: this.state.cars,
-      moveCar: this.moveCar,
-    };
+  return (
+    <Context.Consumer>
+    {({ cars, moveCar }) => (
+    <div>
+      <div>
+        <img
+          className={cars.red ? 'car-right' : 'car-left'}
+          src={carRed}
+          alt="red car"
+        />
+        <button
+          onClick={() => moveCar('red', !cars.red)}
+          type="button"
+        >
+          Move
+        </button>
+      </div>
+      <div>
+        <img
+          className={cars.blue ? 'car-right' : 'car-left'}
+          src={carBlue}
+          alt="blue car"
+        />
+        <button
+          onClick={() => moveCar('blue', !cars.blue)}
+          type="button"
+        >
+          Move
+        </button>
+      </div>
+      <div>
+        <img
+          className={cars.yellow ? 'car-right' : 'car-left'}
+          src={carYellow}
+          alt="yellow car"
+        />
+        <button
+          onClick={() => moveCar('yellow', !cars.yellow)}
+          type="button"
+        >
+          Move
+        </button>
+      </div>
+    </div>
+   )}
 
-    return (
-      <Context.Provider value={contextValue}>
-        <Carrinhos />
-      </Context.Provider>
-    );
-  }
+
+   </Context.Consumer>
+ );
+}
 }
 
 export default Cars;
