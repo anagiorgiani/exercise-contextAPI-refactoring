@@ -1,48 +1,49 @@
 // src/TrafficSignal.jsx
-
+import { Context } from './App'
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { changeSignal } from './redux/actionCreators';
 import redSignal from './images/redSignal.jpeg';
 import yellowSignal from './images/yellowSignal.jpeg';
 import greenSignal from './images/greenSignal.jpeg';
 
-const renderSignal = (signalColor) => {
-  if (signalColor === 'red') return redSignal;
-  if (signalColor === 'yellow') return yellowSignal;
-  if (signalColor === 'green') return greenSignal;
+const renderSignal = (signalCol) => {
+  if (signalCol === 'red') {
+    return redSignal;
+  }
+  if (signalCol === 'green') {
+    return greenSignal;
+  }
+  if (signalCol === 'yellow') {
+    return yellowSignal;
+  }
   return null;
 };
 
-const TrafficSignal = ({ signalColor, changeSignal }) => {
+
+class TrafficSignal extends React.Component {
+  render() {
   return (
+    <Context.Consumer>
+    {({ signalColor, changeSignal }) => (
     <div>
       <div className="button-container">
-        <button onClick={() => changeSignal('red')} type="button">
+        <button className="btn" onClick={() => changeSignal('red')} type="button">
           Red
         </button>
-        <button onClick={() => changeSignal('yellow')} type="button">
+        <button className="btn" onClick={() => changeSignal('yellow')} type="button">
           Yellow
         </button>
-        <button onClick={() => changeSignal('green')} type="button">
+        <button  className="btn" onClick={() => changeSignal('green')} type="button">
           Green
         </button>
       </div>
-      <img className="signal" src={renderSignal(signalColor)} alt="" />
+      { <img className="signal" src={renderSignal(signalColor)} alt="" /> }
     </div>
-  );
-};
+  )}
 
-const mapStateToProps = (state) => ({
-  signalColor: state.trafficReducer.signal.color
-});
 
-const mapDispatchToProps = { changeSignal };
+      </Context.Consumer>
+    );
+  }
+}
 
-TrafficSignal.propTypes = {
-  changeSignal: PropTypes.func.isRequired,
-  signalColor: PropTypes.string.isRequired,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TrafficSignal);
+export default TrafficSignal;
