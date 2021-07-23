@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Context } from './App';
 import carBlue from './images/carBlue.jpeg';
